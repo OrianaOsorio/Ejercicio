@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Ejercicio</title>
+  </head>
+  <body>
+    <!-- se vincula todo lo que se haga en Vue con nuentro html
+    será a través de  este id="app"-->
+    <div class="container mt-5" id="app">
+      <app></app>
+      <app2></app2>
+      <!-- pintamos el titulo haciendo una interpolación-->
+      <!-- llamamos al titulo que esta en vue en data del archivo app.js-->
+      <h3>{{titulo}}</h3>
+      <counter></counter>
+
+      <!--haremos que lo que se ingresa a través el input viaje
+      a tareas asi: v-model="nuevaTarea", osea del index.html a app.js-->
+      <!--para detectar el enter: v-on:keyup.enter="agregarTarea"-->
+
+      
+      <input type="text" class="form-control my-3" v-model="nuevaTarea" v-on:keyup.enter="agregarTarea">
+
+      <!-- cuando apretemos el botón de agregar se incorpora o almacena a nuevaTarea y esa nueva tarea viaja en el array tareas-->
+        <!-- para agregar funciones se realiza asi: @click=agregarTarea-->
+      
+      <button class="btn btn-primary" @click="agregarTarea">Agregar</button>
+
+      <!--como ya tenemos elementos en nuestro array creamos un ciclo for
+      así: v-for="item of tareas"-->
+      <div class="mt-3" v-for="(item, index) of tareas">
+
+        <!--vamos a trabajar con clases de Vue por tanto se docuemntea esta linea-->
+        <!--<div class="alert alert-success" role="alert">-->
+        <!--clase de Vue-->
+        <div class="alert" 
+        :class="['alert', item.estado ? 'alert-success' : 'alert-danger']"> <!--el array tiene dos elementos el primero es 
+        alert, el sugunod elemento será alert-success o alert-danger, ya que dependerá de item.estado osea
+      si es true pita verte o succes sino danger-->
+          <!-- d-flex: se toma de bootstrap-->
+          <div class="d-flex justify-content-around align-items-center">
+            <!--div con texto, propiedades del objeto y se pinta el index-->
+            <div>
+              {{index}} - {{item.nombre}} - {{item.estado}}
+            </div>
+            <div>
+              <!-- vamos agenerar una cambio cuando se preione ok se 
+              cambie el estado {{item.estado}} de false a true, ver archivo app.js-->
+              <button class="btn btn-success btn-sm" @click="editarTarea(index)">OK</button>
+              <button class="btn btn-danger btn-sm" @click="eliminar(index)">X</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuex@3.6.2/dist/vuex.js"></script>
+    <!--se vincula con el archivo app.js-->
+    <script src="componentes/app.js"></script>
+    <script src="componentes/app2.js"></script>
+  </body>
+</html>
